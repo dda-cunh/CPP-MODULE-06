@@ -1,5 +1,5 @@
 .SILENT:
-NAME		= 	bureaucrat
+NAME		= 	convert
 
 CC 			= 	c++
 
