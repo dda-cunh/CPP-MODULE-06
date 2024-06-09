@@ -1,4 +1,5 @@
 #include "../inc/ScalarConverter.hpp"
+#include <iostream>
 
 #define CLI_GREEN		"\033[32m"
 #define CLI_RESET		"\033[0m"
@@ -40,28 +41,23 @@ void	testHeader(std::ostream &o, std::string name)
 
 int main(void)
 {
-	DO_TEST("string == \"0\"",
+	std::string	tests[] =
+		{
+			"42.0f",
+			"inf",
+			"-inf",
+			"24.42e-6",
+			"42.43444546474849",
+			"-2147483649",
+			"2147483648",
+			"dq[owifnqo[wm]]"
+		};
+
+	for (unsigned long i = 0; i < sizeof(tests) / sizeof(std::string); i++)
 	{
-		ScalarConverter::convert("0");
-	});
-	DO_TEST("string == \"nan\"",
-	{
-		ScalarConverter::convert("nan");
-	});
-	DO_TEST("string == \"42.0f\"",
-	{
-		ScalarConverter::convert("42.0f");
-	});
-	DO_TEST("string == \"inf\"",
-	{
-		ScalarConverter::convert("inf");
-	});
-	DO_TEST("string == \"-inf\"",
-	{
-		ScalarConverter::convert("-inf");
-	});
-	DO_TEST("string == \"42.43444546474849\"",
-	{
-		ScalarConverter::convert("42.43444546474849");
-	});
+		DO_TEST(tests[i],
+			{
+				ScalarConverter::convert(tests[i]);
+			});
+	}
 }

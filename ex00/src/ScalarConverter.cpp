@@ -1,5 +1,10 @@
-#include "../inc/ScalarConverter.hpp"
+#include <iostream>
+#include <iomanip>
 #include <cstdlib>
+#include <limits>
+#include <cmath>
+
+#include "../inc/ScalarConverter.hpp"
 
 //--------------------------  CANONICAL  --------------------------//
 ScalarConverter::ScalarConverter(void)
@@ -30,18 +35,33 @@ ScalarConverter::~ScalarConverter(void)
 //-----------------------------  STATIC MEMBERS  ----------------------------//
 void	ScalarConverter::convert(std::string data)
 {
-	double				d_rep;
-	float				f_rep;
-	char				c_rep;
-	int					i_rep;
+	std::streamsize	init_precision;
+	double			d_rep;
+	char			*end_ptr;
 
-	d_rep = std::atof(data.c_str());
-	f_rep = d_rep;
-	i_rep = f_rep;
-	c_rep = i_rep;
-	std::cout << "char: " << c_rep << std::endl;
-	std::cout << "int: " << i_rep << std::endl;
-	std::cout << "float: " << f_rep << std::endl;
-	std::cout << "double: " << d_rep << std::endl;
+	d_rep = strtod(data.c_str(), &end_ptr);
+	if (end_ptr == data.c_str())
+		d_rep = NAN;
+	if (d_rep >= std::numeric_limits<char>::min()
+		&& d_rep <= std::numeric_limits<char>::max())
+	{
+		if (d_rep > 32 && d_rep < 127)
+			std::cout << "char:\t" << (char) d_rep << std::endl;
+		else
+			std::cout << "char:\tNon displayable" << std::endl;
+	}
+	else
+		std::cout << "char:\timpossible" << std::endl;
+	if (d_rep >= std::numeric_limits<int>::min()
+					&& d_rep <= std::numeric_limits<int>::max())
+		std::cout << "int:\t" << (int) d_rep << std::endl;
+	else
+		std::cout << "int:\timpossible" << std::endl;
+	init_precision = std::cout.precision();
+	std::cout << std::fixed << std::setprecision(std::numeric_limits<float>::digits10 + 1);
+	std::cout << "float:\t" << (float) d_rep << 'f' << std::endl;
+	std::cout << std::fixed << std::setprecision(std::numeric_limits<double>::digits10 + 1);
+	std::cout << "double:\t" << d_rep << std::endl;
+	std::cout << std::setprecision(init_precision);
 }
 //---------------------------------------------------------------------------//
