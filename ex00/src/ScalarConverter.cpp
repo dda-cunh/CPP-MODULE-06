@@ -58,7 +58,7 @@ void	ScalarConverter::convert(std::string data)
 	else
 		std::cout << "int:\timpossible" << std::endl;
 	init_precision = std::cout.precision();
-	std::cout << std::fixed ;
+	std::cout << std::fixed;
 	std::cout << std::setprecision(std::numeric_limits<float>::digits10 + 1);
 	std::cout << "float:\t" << (float) d_rep << 'f' << std::endl;
 	std::cout << std::setprecision(std::numeric_limits<double>::digits10 + 1);
